@@ -4,8 +4,8 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 
-from shop.models import Product, Review
-from shop.serializers import ProductSerializer
+from shop.models import Product, Review , Category
+from shop.serializers import ProductSerializer,CategorySerializer
 
 from rest_framework import status
 
@@ -15,7 +15,7 @@ def getProducts(request):
     Products = Product.objects.all()
     serializer = ProductSerializer(Products, many=True)
     return Response(serializer.data)
-    
+
 
 
 @api_view(['GET'])
@@ -130,3 +130,10 @@ def createProductReview(request, pk):
         product.save()
 
         return Response('Review Added')
+
+
+@api_view(['GET'])
+def getProductCategories(request):
+    categories = Category.objects.all()
+    serializer = CategorySerializer(categories, many=True)
+    return Response(serializer.data)
